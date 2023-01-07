@@ -1,0 +1,63 @@
+version: "3.5"
+
+services:
+  dev_nginx:
+    container_name: dev_nginx
+    build:
+      context: .docker/nginx
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - ./.docker/nginx/logs:/var/log/nginx
+      - ./:/var/www
+    restart: on-failure
+    tty: true
+    networks:
+      default:
+        ipv4_address: 172.28.1.1
+
+  dev_postgres:
+    container_name: dev_postgres
+    build:
+      context: .docker/postgres
+      dockerfile: Dockerfile
+    ports:
+      - 5432:5432
+    volumes:
+      - .docker/postgres/data:/var/lib/postgresql/data
+      - .docker/postgres/scripts:/etc/postgresql/scripts
+    environment:
+      POSTGRES_DB: drugovich
+      POSTGRES_USER: drugovich
+      POSTGRES_PASSWORD: drugovich
+    restart: on-failure
+    tty: true
+    networks:
+      default:
+        ipv4_address: 172.28.1.2
+        
+  dev_php:
+    container_name: dev_php
+    build:
+      context: .docker/php8.1.0
+      dockerfile: Dockerfile
+      args:
+        UID: 1000
+        GID: 1000
+    volumes:
+      - ./:/var/www
+    env_file: .env
+    restart: on-failure
+    tty: true
+    networks:
+      default:
+        ipv4_address: 172.28.1.4
+        
+networks:
+  default:
+    name: dev-network
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
