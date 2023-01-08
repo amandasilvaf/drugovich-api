@@ -35,10 +35,8 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/do
 RUN chmod uga+x /usr/local/bin/install-php-extensions && sync && \
     install-php-extensions \
     pdo_pgsql \
-    pdo_mysql \
     gd \
     zip \
-    redis \
     pcntl \
     intl
     
