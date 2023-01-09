@@ -25,13 +25,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        Gate::define('access-manager-level-1-routes', function ($user) {
-            return $user->profile === 'gerente_nivel_1' || 'gerente_nivel_2';
-        });
-
-        Gate::define('access-manager-level-2-routes', function ($user) {
-            return $user->profile === 'gerente_nivel_2';
-        });
     }
 }

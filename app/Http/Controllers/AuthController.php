@@ -20,7 +20,7 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'role_id' => 'required|int',
-            // 'profile' => 'string'
+          
         ]);
 
         $user = User::create([
@@ -28,7 +28,6 @@ class AuthController extends Controller
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
             'role_id' => $request->input('role_id')
-            // 'profile' => $request->input('profile')
         ]);
 
         return response()->json($user, Response::HTTP_CREATED);
@@ -59,30 +58,9 @@ class AuthController extends Controller
             foreach($permissions as $permission){
                 array_push($permissionsName,$permission->name );
             }
-
             
-            $token = $user->createToken('authToken', $permissionsName, Carbon::now()->addDays(2))->plainTextToken;
-            
+            $token = $user->createToken('authToken', $permissionsName, Carbon::now()->addDays(1))->plainTextToken;
          
-
-            // if($user->profile == 'gerente_nivel_1'){
-            //     $token = $user->createToken('authToken', 
-            //     ['client-list','client-read','client-store','client-update','client-delete','client-search', 
-            //     'group-list','group-read','group-search',
-            //     'group-client-list','group-client-add','group-client-remove'
-            //     ], Carbon::now()->addDays(2))->plainTextToken;
-            // }
-
-            // if($user->profile == 'gerente_nivel_2'){
-            //     $token = $user->createToken('authToken', 
-            //     ['client-list','client-read','client-store','client-update','client-delete','client-search', 
-            //     'group-list','group-read','group-search','group-store','group-update','group-delete',
-            //     'group-client-list','group-client-add','group-client-remove'
-            //     ], Carbon::now()->addDays(2))->plainTextToken;
-            // }
-
-            // $token = $user->createToken('authToken', ['*'], Carbon::now()->addDays(1))->plainTextToken;
-
             return response()->json([
                 'user' => $user,
                 'token' => $token,
