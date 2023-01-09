@@ -7,7 +7,11 @@ Em nossa auto peças surgiu a demanda que nossos gerentes pudessem separar nosso
 -   Gerentes precisam estar autenticados;
 -   Gerentes de nível um pode apenas visualizar grupos, adicionar/remover clientes;
 -   Gerentes de nível dois são os únicos que podem criar, editar e excluir grupos
--   Clientes e Gerentes podem ser populados automaticamente
+### Modelos
+-   Clientes: Código Único, CNPJ, Nome, Data Fundação;
+-   Gerentes: Código Único, Nome, E-mail, Nível;
+-   Grupos: Código Único, Nome;
+-   Clientes e Gerentes podem ser populados automaticamente.
 ### Objetivo
 Queremos endpoints para operar os grupos e visualizar os clientes de um grupo.
 
@@ -37,7 +41,7 @@ Queremos endpoints para operar os grupos e visualizar os clientes de um grupo.
 -   Um cliente deve pertencer a apenas um grupo, porém não ficou explícito qual seria a mínima da relação, ou seja, se um cliente poderia não pertencer a grupo nenhum (mínimo 0, máximo 1). 
     Considerei que um cliente pode não estar vinculado a nenhum grupo, pensando nos endpoints de adicionar e remover cliente a um grupo. 
 
--   Apesar de o teste falar em modelo Gerente, com atributo nível, eu tratei o gerente como um usuário que possui certo perfil (papel).
+-   Apesar de o teste falar em modelo Gerente, com atributo nível, eu tratei o gerente como um usuário que possui certo perfil (papel). Portanto a API possui os modelos: Usuário, Perfil, Permissão, PerfilPermissão, Cliente e Grupo.
 
 -   Os usuários possuem perfil (papel). Neste caso, já deixei previamente cadastrado via seeder os perfis 'Gerente nível 1' e 'Gerente nível 2'. 
 
