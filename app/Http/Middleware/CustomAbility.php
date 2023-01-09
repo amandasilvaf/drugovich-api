@@ -16,7 +16,8 @@ class CustomAbility
      */
     public function handle($request, Closure $next, $permission)
     {
-        if (!$request->user()->can($permission)) {
+
+        if (!$request->user()->tokenCan($permission)) {
             return response()->json([
                 'error' => 'Acesso negado. Você não tem permissão para acessar esse recurso.'
             ], 403);
