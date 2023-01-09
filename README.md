@@ -24,16 +24,17 @@ Queremos endpoints para operar os grupos e visualizar os clientes de um grupo.
 -   Entrar na pasta do projeto, e copiar o conteúdo de .env.example para .env  `cp .env.example .env`
 
 -   `docker-compose up -d`
-    
     Para criar os containers dev_php, dev_nginx, dev_postgres.
 
--   `php artisan key:generate` Para gerar a APP_KEY
+-   Entre no container dev_php
+    `docker exect -it dev_php bash`
 
--   `php artisan migrate` ou `php artisan migrate:fresh`
+-   Dentro do container dev_php rode:
+    -    `php artisan key:generate` Para gerar a APP_KEY
 
-    Para rodar as migrations de criação das tabelas do banco de dados
+    -   `php artisan migrate` ou `php artisan migrate:fresh` Para rodar as migrations de criação das tabelas do banco de dados
 
--   `php artisan db:seed`
+    -   `php artisan db:seed`
 
     Para rodar as seeders, e popular as tabelas Grupos, Clientes, Perfis, Permissões e Usuários.
 
