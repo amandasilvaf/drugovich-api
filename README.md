@@ -20,9 +20,14 @@ Queremos endpoints para operar os grupos e visualizar os clientes de um grupo.
 
 -   clonar este repositório
 
+    
+-   Entrar na pasta do projeto, e copiar o conteúdo de .env.example para .env  `cp .env.example .env`
+
 -   `docker-compose up -d`
     
     Para criar os containers dev_php, dev_nginx, dev_postgres.
+
+-   `php artisan key:generate` Para gerar a APP_KEY
 
 -   `php artisan migrate` ou `php artisan migrate:fresh`
 
