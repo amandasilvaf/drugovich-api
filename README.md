@@ -29,15 +29,14 @@ Queremos endpoints para operar os grupos e visualizar os clientes de um grupo.
 -   Entre no container dev_php
     `docker exec -it dev_php bash`
 
--   Dentro do container dev_php rode:
+-   Dentro do container dev_php, rode os seguintes comandos:
     -   `composer install` Para instalar as dependências do projeto
-    -    `php artisan key:generate` Para gerar a APP_KEY
+
+    -   `php artisan key:generate` Para gerar a APP_KEY
 
     -   `php artisan migrate` ou `php artisan migrate:fresh` Para rodar as migrations de criação das tabelas do banco de dados
 
-    -   `php artisan db:seed`
-
-    Para rodar as seeders, e popular as tabelas Grupos, Clientes, Perfis, Permissões e Usuários.
+    -   `php artisan db:seed` Para rodar as seeders, e popular as tabelas Grupos, Clientes, Perfis, Permissões e Usuários.
 
 #### Pré requisitos:
 -   Docker
