@@ -7,6 +7,7 @@ use App\Http\Requests\GroupUpdateRequest;
 use App\Models\Client;
 use App\Models\Group;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 
@@ -14,13 +15,17 @@ class GroupController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $groups = Group::all();
+            $request->validated();
+            $page = $request->input('page', 1);
+            $perPage = $request->input('per_page', 50);
+        
+            $groups = Group::paginate($perPage, ['*'], 'page', $page);
             return response()->json($groups, Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json([

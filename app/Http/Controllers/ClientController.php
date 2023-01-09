@@ -2,24 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClientListRequest;
 use App\Http\Requests\ClientStoreRequest;
 use App\Http\Requests\ClientUpdateRequest;
 use App\Models\Client;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 
 class ClientController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * Display a paginated list of the resource.
+     * @param ClientListRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ClientListRequest $request)
     {
         try {
-            $clients = Client::all();
+            $request->validated();
+            $page = $request->input('page', 1);
+            $perPage = $request->input('per_page', 50);
+        
+            $clients = Client::paginate($perPage, ['*'], 'page', $page);
             return response()->json($clients, Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json([
