@@ -18,23 +18,21 @@ Queremos endpoints para operar os grupos e visualizar os clientes de um grupo.
 ----------------------------------------------------------------------------------------------------------
 ### Instruções para executar o projeto
 
--   clonar este repositório
+-   Clonar este repositório
 
-    
--   Entrar na pasta do projeto, e copiar o conteúdo de .env.example para .env  `cp .env.example .env`
+-   Entrar na pasta do projeto, e copiar o conteúdo de .env.example para .env, com o comando
+    `cp .env.example .env`.
 
--   `docker-compose up -d`
-    Para criar os containers dev_php, dev_nginx, dev_postgres.
+-   Executar o comando `docker-compose up -d` para criar os containers dev_php, dev_nginx, dev_postgres.
 
--   Entre no container dev_php
-    `docker exec -it dev_php bash`
+-   Entrar no container dev_php, com o comando `docker exec -it dev_php bash`.
 
--   Dentro do container dev_php, rode os seguintes comandos:
-    -   `composer install` Para instalar as dependências do projeto
+-   Dentro do container dev_php, rodar os seguintes comandos:
+    -   `composer install` Para instalar as dependências do projeto.
 
-    -   `php artisan key:generate` Para gerar a APP_KEY
+    -   `php artisan key:generate` Para gerar a APP_KEY.
 
-    -   `php artisan migrate` ou `php artisan migrate:fresh` Para rodar as migrations de criação das tabelas do banco de dados
+    -   `php artisan migrate` ou `php artisan migrate:fresh` Para rodar as migrations de criação das tabelas do banco de dados.
 
     -   `php artisan db:seed` Para rodar as seeders, e popular as tabelas Grupos, Clientes, Perfis, Permissões e Usuários.
 
@@ -42,42 +40,49 @@ Queremos endpoints para operar os grupos e visualizar os clientes de um grupo.
 -   Docker
 
 
+
 ### Considerações do projeto
 
 -   Um cliente deve pertencer a apenas um grupo, porém não ficou explícito qual seria a mínima da relação, ou seja, se um cliente poderia não pertencer a grupo nenhum (mínimo 0, máximo 1). 
     Considerei que um cliente pode não estar vinculado a nenhum grupo, pensando nos endpoints de adicionar e remover cliente a um grupo. 
 
--   Apesar de o teste falar em modelo Gerente, com atributo nível, eu tratei o gerente como um usuário que possui certo perfil (papel). Portanto a API possui os modelos: Usuário, Perfil, Permissão, PerfilPermissão, Cliente e Grupo.
+-   Apesar de o teste falar em modelo Gerente com atributo nível, eu tratei o gerente como um usuário que possui certo perfil (neste caso: perfil gerente). 
+-   Então o usuário possui um perfil. Será cadastrado via seeder os perfis 'Gerente nível 1' e 'Gerente nível 2'. 
 
--   Os usuários possuem perfil (papel). Neste caso, já deixei previamente cadastrado via seeder os perfis 'Gerente nível 1' e 'Gerente nível 2'. 
+-   Cada perfil de usuário possui suas permissões. Será cadastrado via seeder as permissões para os perfis.    
+    Sendo que o Gerente nível 2 tem acesso a todos os endpoints, e o Gerente nível 1 não tem acesso aos endpoints 'cadastrar novo grupo', 'alterar grupo' e 'deletar grupo'.
 
--   Cada perfil possui suas permissões. Também já cadastrei via seeder as permissões para os perfis. Sendo que o Gerente nível 2 tem acesso a todos os endpoints, e o Gerente nível 1 não tem acesso aos endpoints 'cadastrar novo grupo', 'alterar grupo' e 'deletar grupo'.
-
--  No UsersSeeder será criado um usuário para o perfil 'Gerente nível 1' e outro para o perfil 'Gerente nível 2'. Você pode utilizar estes usuários para autenticar e operar os endpoints, mas, caso queira, também pode criar novo usuário no endpoint 'auth/register'
+-  Via seeder será criado um usuário para o perfil 'Gerente nível 1' e outro para o perfil 'Gerente nível 2'. 
+    Você pode utilizar estes usuários para autenticar e operar os endpoints, mas, caso queira, também pode criar novo usuário no endpoint 'criar novo usuário'
 
 - Também serão cadastrados os grupos "Cliente VIP" e "Cliente Comum", e dois clientes via seeder. Os clientes serão cadastrados sem grupo. 
 
-- Para autenticar com um usuário, acesse o endpoint 'auth/login', enviando o email e o password do usuário. O endpoint retornará um access_token com a autenticação e permissões do usuário. 
+- Portanto a API possui os modelos: Usuário, Perfil, Permissão, PerfilPermissão, Cliente e Grupo.
+
+- Para autenticar com um usuário, acesse o endpoint 'logar usuário', enviando o email e o password do usuário. O endpoint retornará um access_token com a autenticação e permissões do usuário. 
 Este access_token deverá ser enviado em todas as chamadas (inclusive no logout), no formato 'Bearer Token'. 
-O access_token tem duração de 1 dia, e pode ser revogado fazendo logout no endpoint 'logout'.
+O access_token tem duração de 1 dia, e pode ser revogado fazendo logout no endpoint 'deslogar usuário'.
 
 - Você pode usar a coleção drugovich-collection.json no insomnia para testar. 
+    
 
 
 ### Endpoints
+
 ### Auth
 
--   POST /api/auth/register -> criar novo usuário
+-   POST /api/auth/register -> cadastra novo usuário
     -   enviar os campos name, email, password, password_confirmation, role_id
 
--   POST /api/auth/login -> autenticar usuário 
+-   POST /api/auth/login -> logar usuário
     -   enviar os campos email e senha
 
 -   DELETE /api/logout -> deslogar usuário
 
+
 ### Groups
 -   GET /api/groups -> lista todos os grupos 
-    - query params: page e per_page
+    -   query params: page e per_page
 
 -   GET /api/groups/{id} -> lista um grupo 
 
@@ -96,6 +101,8 @@ O access_token tem duração de 1 dia, e pode ser revogado fazendo logout no end
 -   POST /api/groups/{groupId}/clients/{clientId} -> adiciona cliente a um grupo 
 
 -   DELETE /api/groups/{groupId}/clients/{clientId} -> remove cliente de um grupo
+
+
 
 ### Clients
 -   GET /api/clients -> lista todos os clientes 
