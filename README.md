@@ -55,7 +55,7 @@ Queremos endpoints para operar os grupos e visualizar os clientes de um grupo.
 Este access_token deverá ser enviado em todas as chamadas (inclusive no logout), no formato 'Bearer Token'. 
 O access_token tem duração de 1 dia, e pode ser revogado fazendo logout no endpoint 'logout'.
 
-- Você pode baixar a coleção do insomnia para testar. 
+- Você pode user a coleção drugovich-collection.json para testar. 
 
 
 ### Endpoints
