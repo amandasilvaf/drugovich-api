@@ -49,6 +49,8 @@ Queremos endpoints para operar os grupos e visualizar os clientes de um grupo.
 
 -  No UsersSeeder será criado um usuário para o perfil 'Gerente nível 1' e outro para o perfil 'Gerente nível 2'. Você pode utilizar estes usuários para autenticar e operar os endpoints, mas, caso queira, também pode criar novo usuário no endpoint 'auth/register'
 
+- Também serão cadastrados os grupos "Cliente VIP" e "Cliente Comum", e dois clientes via seeder. Os clientes serão cadastrados sem grupo. 
+
 - Para autenticar com um usuário, acesse o endpoint 'auth/login', enviando o email e o password do usuário. O endpoint retornará um access_token com a autenticação e permissões do usuário. 
 Este access_token deverá ser enviado em todas as chamadas (inclusive no logout), no formato 'Bearer Token'. 
 O access_token tem duração de 1 dia, e pode ser revogado fazendo logout no endpoint 'logout'.
