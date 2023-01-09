@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GroupListRequest;
 use App\Http\Requests\GroupStoreRequest;
 use App\Http\Requests\GroupUpdateRequest;
 use App\Models\Client;
@@ -15,10 +16,10 @@ class GroupController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * @param  \Illuminate\Http\Request $request
+     * @param  GroupListRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(GroupListRequest $request)
     {
         try {
             $request->validated();
