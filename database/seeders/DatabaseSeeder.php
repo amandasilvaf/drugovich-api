@@ -17,13 +17,10 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             Base\GroupsSeeder::class,
-            Base\ClientsSeeder::class
+            Base\ClientsSeeder::class,
+            Base\RolesSeeder::class,
+            Base\PermissionsSeeder::class,
+            Base\RoleHasPermissionSeeder::class,
         ]);
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }
