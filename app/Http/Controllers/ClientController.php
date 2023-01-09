@@ -121,7 +121,8 @@ class ClientController extends Controller
 
     public function search($name)
     {
-        $clients = Client::where('name', 'ilike', '%'.$name.'%')->get();
+        // $clients = Client::where('name', 'ilike', '%'.$name.'%')->get();
+        $clients = Client::whereRaw("name ilike ?", ["%{$name}%"])->get();
         
         if (sizeof($clients) == 0){
             return response()->json(['message' => 'Nenhum cliente encontrado com o termo de busca'], Response::HTTP_NOT_FOUND);

@@ -27,7 +27,9 @@ Queremos endpoints para operar os grupos e visualizar os clientes de um grupo.
     Para criar os containers dev_php, dev_nginx, dev_postgres.
 
 -   Entre no container dev_php
-    `docker exect -it dev_php bash`
+    `docker exec -it dev_php bash`
+
+-   `composer install` Para instalar as dependências do projeto
 
 -   Dentro do container dev_php rode:
     -    `php artisan key:generate` Para gerar a APP_KEY
@@ -61,30 +63,54 @@ Queremos endpoints para operar os grupos e visualizar os clientes de um grupo.
 Este access_token deverá ser enviado em todas as chamadas (inclusive no logout), no formato 'Bearer Token'. 
 O access_token tem duração de 1 dia, e pode ser revogado fazendo logout no endpoint 'logout'.
 
-- Você pode user a coleção drugovich-collection.json para testar. 
+- Você pode usar a coleção drugovich-collection.json no insomnia para testar. 
 
 
 ### Endpoints
-#### Auth
--   register -> novo usuário
--   login -> autenticar usuário (email e senha)
--   logout -> revogar o Personal Access Token
+### Auth
 
-#### Groups
--   findAll -> lista todos os grupos (enviar page e per_page)
--   findOne -> lista um grupo 
--   search -> pesquisa pelo nome 
--   store -> cadastra novo grupo (só gerente nível 2)
--   update -> atualiza um grupo (só gerente nível 2)
--   delete -> deleta um grupo (só gerente nível 2)
--   clients -> lista clientes de um grupo
--   addClient -> adiciona cliente a um grupo 
--   removeCliente -> remove cliente de um grupo
+-   POST /api/auth/register -> criar novo usuário
+    -   enviar os campos name, email, password, password_confirmation, role_id
 
-#### Clients
--   findAll -> lista todos os clientes (enviar page e per_page)
--   findOne -> lista um cliente 
--   search -> pesquisa pelo nome 
--   store -> cadastra novo cliente 
--   update -> atualiza um cliente 
--   delete -> deleta um cliente
+-   POST /api/auth/login -> autenticar usuário 
+    -   enviar os campos email e senha
+
+-   DELETE /api/logout -> deslogar usuário
+
+### Groups
+-   GET /api/groups -> lista todos os grupos 
+    - query params: page e per_page
+
+-   GET /api/groups/{id} -> lista um grupo 
+
+-   GET /api/groups/search/{name} -> pesquisa pelo nome 
+
+-   POST /api/groups -> cadastra novo grupo (só gerente nível 2)
+    - enviar o campo name.
+
+-   PUT /api/groups/{id} -> atualiza um grupo (só gerente nível 2)
+    - enviar o campo name.
+
+-   DELETE /api/groups/{id} -> deleta um grupo (só gerente nível 2)
+
+-   GET /api/groups/{groupId}/clients -> lista clientes de um grupo
+
+-   POST /api/groups/{groupId}/clients/{clientId} -> adiciona cliente a um grupo 
+
+-   DELETE /api/groups/{groupId}/clients/{clientId} -> remove cliente de um grupo
+
+### Clients
+-   GET /api/clients -> lista todos os clientes 
+    - query params: page e per_page
+
+-   GET /api/clients/{id} -> lista um cliente 
+
+-   GET /api/clients/search/{name} -> pesquisa pelo nome 
+
+-   POST /api/clients -> cadastra novo cliente 
+    -   enviar os campos name (string), cnpj (string de 14 caracteres), foundation (date), group_id (inteiro, opcional)
+
+-   PUT /api/clients/{id} -> atualiza um cliente 
+    - enviar os campos que deseja atualizar.
+
+-   DELETE /api/clients/{id} -> deleta um cliente
