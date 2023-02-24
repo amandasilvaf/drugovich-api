@@ -16,11 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::post('rabbit', [AuthController::class, 'rabbit']);
+
+
 Route::prefix('auth')->group(function(){
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
-    
 });
+
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -47,5 +51,4 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{groupId}/clients/{clientId}', [GroupController::class, 'removeClient'])->middleware('ability:group-client-remove');
     });
 });
-
 

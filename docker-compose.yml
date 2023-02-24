@@ -1,6 +1,19 @@
 version: "3.5"
 
 services:
+  rabbitmq:
+    image: rabbitmq:3.10.0-management
+    container_name: "dev_rabbitmq"
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - .docker/rabbitmq/data:/var/lib/rabbitmq
+    environment: 
+      RABBITMQ_DEFAULT_USER: amanda 
+      RABBITMQ_DEFAULT_PASS: drugovich
+
   dev_nginx:
     container_name: dev_nginx
     build:

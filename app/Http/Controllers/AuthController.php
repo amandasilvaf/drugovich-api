@@ -13,8 +13,31 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
+use App\Jobs\NewUserJob;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
 class AuthController extends Controller
 {
+
+    public function rabbit(Request $request)
+    {
+        $requestmsg = $request->message;
+        //NewUserJob::dispatch($msg)->onConnection('rabbitmq');
+        $connection = new AMQPStreamConnection('dev_rabbitmq', 5672, 'amanda', 'drugovich');
+        $channel = $connection->channel();
+        $channel->queue_declare('hello', false, false, false, false);
+
+        $msg = new AMQPMessage($requestmsg);
+        $channel->basic_publish($msg, '', 'hello');
+
+        $channel->close();
+        $connection->close();
+
+        echo " [x] Enviou a mensagem '" . $requestmsg . "' para a fila...\n";
+       // return response()->json(Response::HTTP_OK);
+    }
+
 
     /**
      * Handle the register request.

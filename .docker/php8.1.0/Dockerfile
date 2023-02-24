@@ -19,8 +19,9 @@ RUN apt-get update \
     iputils-ping \
     zip \
     unzip \
-    git
+    git 
 
+      
 # Define locale PT-BR
 RUN echo "pt_BR.UTF-8 UTF-8" >> /etc/locale.gen && \
     locale-gen "pt_BR.UTF-8" && \
@@ -38,8 +39,10 @@ RUN chmod uga+x /usr/local/bin/install-php-extensions && sync && \
     gd \
     zip \
     pcntl \
-    intl
-    
+    intl \
+    sockets
+
+
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /var/www
